@@ -44,7 +44,7 @@ phase_PRGB_TiO2_225P_1um_h.mat with phase_matrix (phase versus radius for each w
 This code uses PyTorch, PyTorch Lightning, NumPy, h5py, matplotlib, and optionally Weights and Biases.
 
 ### A minimal pip install list:
-
+```bash
 torch
 
 pytorch lightning
@@ -56,6 +56,7 @@ h5py
 matplotlib
 
 wandb (optional)
+```bash
 
 # Usage
 ## Quick start
@@ -65,6 +66,7 @@ Edit parameters inside Config in main.py if needed, then run:
 
 ```bash
 python main.py
+```bash
 
 Checkpoints are saved to:
 checkpoints_optics_only/ 
@@ -76,10 +78,12 @@ Update ckpt_path inside visualize_trained_optics.py to the checkpoint you want, 
 
 ```bash
 python visualize_trained_optics.py
+```bash
 
 Outputs are saved to:
 ```bash
 viz_outputs/ 
+```bash
 
 ## Key parameters
 
