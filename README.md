@@ -80,7 +80,7 @@ viz_outputs/
 
 ## Key parameters
 
-Simulation grid
+**Simulation grid**
 
 N is the simulation grid size in pixels.
 
@@ -94,12 +94,12 @@ This is checked in code and will raise an error if violated.
 
 Practical note: choose N larger than metalens_diameter_m / dx_m to reduce boundary artifacts in the PSF.
 
-Wavelengths
+**Wavelengths**
 
 wavelengths_m is a list of wavelengths in meters, for example:
 [681e-9, 601e-9, 521e-9, 433e-9]
 
-Focal length and z planes
+**Focal length and z planes**
 
 focal_length_m is the target focus distance.
 
