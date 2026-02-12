@@ -1,4 +1,4 @@
-# Multispectral focusing metalens optimization (optics only)
+# Multispectral focusing metalens optimization 
 
 This repository optimizes a rotationally symmetric metalens design for multiple wavelengths using only physics based PSF simulation and frequency domain losses. The design variable is a 1D radial radius vector that is expanded into a 2D radius map, converted to wavelength dependent phase using a precomputed TiO2 library, and propagated to the image plane with the angular spectrum method.
 
@@ -144,26 +144,26 @@ You can change the reference wavelength using ref_idx inside OpticsModel.__init_
 
 Training uses two main objectives: 
 
-MTF shaping loss (edof_mtf_rmse_simple)
+**MTF shaping loss (edof_mtf_rmse_simple)**
 Computes the MTF from the PSF and compares its radial profile to a target curve up to rho_cut. Aggregation uses a worst wavelength soft max to push the weakest channel.
 
-Focusing loss (encircled_energy_loss)
+**Focusing loss (encircled_energy_loss)**
 Maximizes encircled energy inside a small radius around the PSF center. In code it is implemented as 1 - EE, and uses worst channel reduction to enforce co focusing.
 
-Total loss:
+**Total loss:**
 loss = w_mtf * mtf_loss + w_focus * focus_loss
 
 ## **Logging and tracking radius updates**
 
 During training, the Lightning module logs:
 
-train/radius_grad_norm
+- train/radius_grad_norm
 
-train/radius_delta_mean_nm
+- train/radius_delta_mean_nm
 
-train/radius_delta_max_nm
+- train/radius_delta_max_nm
 
-min and max radius values
+- min and max radius values
 
 These are useful to verify the parameter is updating and not stuck. 
 
@@ -179,13 +179,13 @@ If PSFs show ringing or boundary artifacts, increase N while keeping metalens_di
 
 The visualization script saves:
 
-PSF images for each wavelength and z index
+- PSF images for each wavelength and z index
 
-MTF images for each PSF
+- MTF images for each PSF
 
-Phase maps per wavelength
+- Phase maps per wavelength
 
-Radius map final, radius map init, and their difference 
+- Radius map final, radius map init, and their difference 
 
 ## License
 
