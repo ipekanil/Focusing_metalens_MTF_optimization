@@ -1,8 +1,8 @@
-Multispectral focusing metalens optimization (optics only)
+#Multispectral focusing metalens optimization (optics only)
 
 This repository optimizes a rotationally symmetric metalens design for multiple wavelengths using only physics based PSF simulation and frequency domain losses. The design variable is a 1D radial radius vector that is expanded into a 2D radius map, converted to wavelength dependent phase using a precomputed TiO2 library, and propagated to the image plane with the angular spectrum method.
 
-What it does
+##What it does
 
 Builds a learnable 1D radius profile (in meters) within fabrication limits.
 
@@ -18,40 +18,32 @@ Computes PSFs for all wavelengths.
 
 Optimizes the radius vector using a combination of MTF shaping loss and focusing loss (encircled energy).
 
-Files
+##Files
 
-OpticsModel.py
+###OpticsModel.py
 Physics forward model. Loads the radius and phase libraries from meta_data, creates the aperture mask, initializes the radius vector using a focusing phase at a reference wavelength, then returns PSFs and intermediate maps. 
 
-OpticsModel
-
-OpticsOnlyLit.py
+###OpticsOnlyLit.py
 PyTorch Lightning module that runs optics only training with a dummy dataloader. Computes losses from the PSFs and updates radius_vector_learnable. Logs loss terms and radius update statistics. 
 
-OpticsOnlyLit
-
-main.py
+###main.py
 Training entry point. Defines a Config, sets simulation parameters, starts Lightning trainer, and saves checkpoints. 
 
-main
-
-visualize_trained_optics.py
+###visualize_trained_optics.py
 Loads a trained checkpoint and saves visualizations for PSF, MTF, phase maps, and radius maps (initial, final, and difference). 
 
-visualize_trained_optics
-
-meta_data/
+###meta_data/
 Must contain the library files:
 
 edge_PRGB_TiO2_225P_1um_h.mat with edge (radius values)
 
 phase_PRGB_TiO2_225P_1um_h.mat with phase_matrix (phase versus radius for each wavelength)
 
-Installation
+##Installation
 
 This code uses PyTorch, PyTorch Lightning, NumPy, h5py, matplotlib, and optionally Weights and Biases.
 
-A minimal pip install list:
+###A minimal pip install list:
 
 torch
 
@@ -65,32 +57,28 @@ matplotlib
 
 wandb (optional)
 
-Quick start
-1) Train
+#Usage
+##Quick start
+###1) Train
 
 Edit parameters inside Config in main.py if needed, then run:
 
 python main.py
 
-
 Checkpoints are saved to:
 checkpoints_optics_only/ 
 
-main
 
-2) Visualize a trained model
+###2) Visualize a trained model
 
 Update ckpt_path inside visualize_trained_optics.py to the checkpoint you want, then run:
 
 python visualize_trained_optics.py
 
-
 Outputs are saved to:
 viz_outputs/ 
 
-visualize_trained_optics
-
-Key parameters
+**Key parameters**
 Simulation grid
 
 N is the simulation grid size in pixels.
@@ -118,15 +106,13 @@ If n_z == 1, the model propagates only to z = focal_length_m.
 
 If n_z > 1, it simulates multiple planes spanning z_span_m centered at the focal length. 
 
-OpticsModel
+**OpticsModel**
 
-Forward model details
+**Forward model details**
 
 For each wavelength:
 
 Radius map is converted to phase map using a differentiable 1D interpolation of the library table. 
-
-OpticsModel
 
 Complex field at the metalens plane is:
 u0 = aperture_mask * exp(i * phase_map)
@@ -135,11 +121,9 @@ Propagation uses angular spectrum:
 u(z) = IFFT( FFT(u0) * H(fx, fy, z) )
 with optional band limiting to suppress evanescent components. 
 
-OpticsModel
-
 PSF is |u(z)|^2 normalized to sum to 1.
 
-Optimization variables
+**Optimization variables**
 
 The learned parameter is radius_vector_learnable which is stored in logit space for stable constraints. Physical radii are produced by:
 
@@ -147,21 +131,17 @@ radius_vector = radius_min + (radius_max - radius_min) * sigmoid(SCALE * radius_
 
 The 2D rotationally symmetric map is created by nearest ring assignment.
 
-Initialization
+**Initialization**
 
 The default initialization builds a focusing phase profile at one reference wavelength and inverts the library to obtain an initial radius vector. This gives a reasonable starting point that focuses well at the reference wavelength. 
 
-OpticsModel
+**OpticsModel**
 
 You can change the reference wavelength using ref_idx inside OpticsModel.__init__. 
 
-OpticsModel
-
-Losses
+**Losses**
 
 Training uses two main objectives: 
-
-OpticsOnlyLit
 
 MTF shaping loss (edof_mtf_rmse_simple)
 Computes the MTF from the PSF and compares its radial profile to a target curve up to rho_cut. Aggregation uses a worst wavelength soft max to push the weakest channel.
@@ -172,7 +152,7 @@ Maximizes encircled energy inside a small radius around the PSF center. In code 
 Total loss:
 loss = w_mtf * mtf_loss + w_focus * focus_loss
 
-Logging and tracking radius updates
+**Logging and tracking radius updates**
 
 During training, the Lightning module logs:
 
@@ -186,9 +166,7 @@ min and max radius values
 
 These are useful to verify the parameter is updating and not stuck. 
 
-OpticsOnlyLit
-
-Common tips
+**Common tips**
 
 If only the reference wavelength focuses well, increase pressure on the worst wavelength by keeping reduce_channel="max" in encircled_energy_loss and using the worst channel aggregation in the MTF loss.
 
@@ -196,7 +174,7 @@ If the radius updates are tiny, increase lr_optical or reduce SCALE. If the loss
 
 If PSFs show ringing or boundary artifacts, increase N while keeping metalens_diameter_m fixed.
 
-Outputs
+**Outputs**
 
 The visualization script saves:
 
@@ -208,4 +186,3 @@ Phase maps per wavelength
 
 Radius map final, radius map init, and their difference 
 
-visualize_trained_optics
