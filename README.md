@@ -63,7 +63,7 @@ wandb (optional)
 
 Edit parameters inside Config in main.py if needed, then run:
 
-python main.py
+'python main.py'
 
 Checkpoints are saved to:
 checkpoints_optics_only/ 
@@ -73,10 +73,10 @@ checkpoints_optics_only/
 
 Update ckpt_path inside visualize_trained_optics.py to the checkpoint you want, then run:
 
-python visualize_trained_optics.py
+'python visualize_trained_optics.py'
 
 Outputs are saved to:
-viz_outputs/ 
+'viz_outputs/ '
 
 ## Key parameters
 
