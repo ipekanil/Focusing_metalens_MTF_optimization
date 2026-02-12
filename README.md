@@ -187,3 +187,10 @@ Phase maps per wavelength
 
 Radius map final, radius map init, and their difference 
 
+## License
+
+MIT License. See `LICENSE`.
+
+## Citation
+
+Please cite this repository if you use it. A CITATION.cff file is included.
