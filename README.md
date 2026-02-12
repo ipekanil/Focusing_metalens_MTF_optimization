@@ -1,8 +1,8 @@
-#Multispectral focusing metalens optimization (optics only)
+# Multispectral focusing metalens optimization (optics only)
 
 This repository optimizes a rotationally symmetric metalens design for multiple wavelengths using only physics based PSF simulation and frequency domain losses. The design variable is a 1D radial radius vector that is expanded into a 2D radius map, converted to wavelength dependent phase using a precomputed TiO2 library, and propagated to the image plane with the angular spectrum method.
 
-##What it does
+## What it does
 
 Builds a learnable 1D radius profile (in meters) within fabrication limits.
 
@@ -18,32 +18,32 @@ Computes PSFs for all wavelengths.
 
 Optimizes the radius vector using a combination of MTF shaping loss and focusing loss (encircled energy).
 
-##Files
+## Files
 
-###OpticsModel.py
+### OpticsModel.py
 Physics forward model. Loads the radius and phase libraries from meta_data, creates the aperture mask, initializes the radius vector using a focusing phase at a reference wavelength, then returns PSFs and intermediate maps. 
 
-###OpticsOnlyLit.py
+### OpticsOnlyLit.py
 PyTorch Lightning module that runs optics only training with a dummy dataloader. Computes losses from the PSFs and updates radius_vector_learnable. Logs loss terms and radius update statistics. 
 
-###main.py
+### main.py
 Training entry point. Defines a Config, sets simulation parameters, starts Lightning trainer, and saves checkpoints. 
 
-###visualize_trained_optics.py
+### visualize_trained_optics.py
 Loads a trained checkpoint and saves visualizations for PSF, MTF, phase maps, and radius maps (initial, final, and difference). 
 
-###meta_data/
+### meta_data/
 Must contain the library files:
 
 edge_PRGB_TiO2_225P_1um_h.mat with edge (radius values)
 
 phase_PRGB_TiO2_225P_1um_h.mat with phase_matrix (phase versus radius for each wavelength)
 
-##Installation
+## Installation
 
 This code uses PyTorch, PyTorch Lightning, NumPy, h5py, matplotlib, and optionally Weights and Biases.
 
-###A minimal pip install list:
+### A minimal pip install list:
 
 torch
 
@@ -57,9 +57,9 @@ matplotlib
 
 wandb (optional)
 
-#Usage
-##Quick start
-###1) Train
+# Usage
+## Quick start
+### 1) Train
 
 Edit parameters inside Config in main.py if needed, then run:
 
@@ -69,7 +69,7 @@ Checkpoints are saved to:
 checkpoints_optics_only/ 
 
 
-###2) Visualize a trained model
+### 2) Visualize a trained model
 
 Update ckpt_path inside visualize_trained_optics.py to the checkpoint you want, then run:
 
@@ -78,7 +78,8 @@ python visualize_trained_optics.py
 Outputs are saved to:
 viz_outputs/ 
 
-**Key parameters**
+# Key parameters
+
 Simulation grid
 
 N is the simulation grid size in pixels.
@@ -131,7 +132,7 @@ radius_vector = radius_min + (radius_max - radius_min) * sigmoid(SCALE * radius_
 
 The 2D rotationally symmetric map is created by nearest ring assignment.
 
-**Initialization**
+# **Initialization**
 
 The default initialization builds a focusing phase profile at one reference wavelength and inverts the library to obtain an initial radius vector. This gives a reasonable starting point that focuses well at the reference wavelength. 
 
