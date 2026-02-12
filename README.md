@@ -78,7 +78,7 @@ python visualize_trained_optics.py
 Outputs are saved to:
 viz_outputs/ 
 
-# Key parameters
+## Key parameters
 
 Simulation grid
 
@@ -107,9 +107,9 @@ If n_z == 1, the model propagates only to z = focal_length_m.
 
 If n_z > 1, it simulates multiple planes spanning z_span_m centered at the focal length. 
 
-**OpticsModel**
+## Library
 
-**Forward model details**
+### **OpticsModel**
 
 For each wavelength:
 
@@ -124,7 +124,7 @@ with optional band limiting to suppress evanescent components.
 
 PSF is |u(z)|^2 normalized to sum to 1.
 
-**Optimization variables**
+### **Optimization variables**
 
 The learned parameter is radius_vector_learnable which is stored in logit space for stable constraints. Physical radii are produced by:
 
@@ -132,7 +132,7 @@ radius_vector = radius_min + (radius_max - radius_min) * sigmoid(SCALE * radius_
 
 The 2D rotationally symmetric map is created by nearest ring assignment.
 
-# **Initialization**
+## **Initialization**
 
 The default initialization builds a focusing phase profile at one reference wavelength and inverts the library to obtain an initial radius vector. This gives a reasonable starting point that focuses well at the reference wavelength. 
 
@@ -140,7 +140,7 @@ The default initialization builds a focusing phase profile at one reference wave
 
 You can change the reference wavelength using ref_idx inside OpticsModel.__init__. 
 
-**Losses**
+## **Losses**
 
 Training uses two main objectives: 
 
@@ -153,7 +153,7 @@ Maximizes encircled energy inside a small radius around the PSF center. In code 
 Total loss:
 loss = w_mtf * mtf_loss + w_focus * focus_loss
 
-**Logging and tracking radius updates**
+## **Logging and tracking radius updates**
 
 During training, the Lightning module logs:
 
@@ -167,7 +167,7 @@ min and max radius values
 
 These are useful to verify the parameter is updating and not stuck. 
 
-**Common tips**
+# **Common tips**
 
 If only the reference wavelength focuses well, increase pressure on the worst wavelength by keeping reduce_channel="max" in encircled_energy_loss and using the worst channel aggregation in the MTF loss.
 
@@ -175,7 +175,7 @@ If the radius updates are tiny, increase lr_optical or reduce SCALE. If the loss
 
 If PSFs show ringing or boundary artifacts, increase N while keeping metalens_diameter_m fixed.
 
-**Outputs**
+# **Outputs**
 
 The visualization script saves:
 
