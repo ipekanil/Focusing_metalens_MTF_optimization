@@ -4,19 +4,19 @@ This repository optimizes a rotationally symmetric metalens design for multiple 
 
 ## What it does
 
-Builds a learnable 1D radius profile (in meters) within fabrication limits.
+- Builds a learnable 1D radius profile (in meters) within fabrication limits.
 
-Expands it to a 2D rotationally symmetric radius map.
+- Expands it to a 2D rotationally symmetric radius map.
 
-Converts radius map to phase map for each wavelength using the library lookup.
+- Converts radius map to phase map for each wavelength using the library lookup.
 
-Forms the complex field at the metalens plane (aperture times exp(i phase)).
+- Forms the complex field at the metalens plane (aperture times exp(i phase)).
 
-Propagates to the focal plane (or multiple z planes if enabled) using angular spectrum propagation.
+- Propagates to the focal plane (or multiple z planes if enabled) using angular spectrum propagation.
 
-Computes PSFs for all wavelengths.
+- Computes PSFs for all wavelengths.
 
-Optimizes the radius vector using a combination of MTF shaping loss and focusing loss (encircled energy).
+- Optimizes the radius vector using a combination of MTF shaping loss and focusing loss (encircled energy).
 
 ## Files
 
