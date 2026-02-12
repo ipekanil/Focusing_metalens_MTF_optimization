@@ -45,45 +45,33 @@ This code uses PyTorch, PyTorch Lightning, NumPy, h5py, matplotlib, and optional
 
 ### A minimal pip install list:
 ```bash
-torch
-
-pytorch lightning
-
-numpy
-
-h5py
-
-matplotlib
-
-wandb (optional)
-```bash
+pip install torch pytorch-lightning numpy h5py matplotlib
+pip install wandb
 
 # Usage
 ## Quick start
 ### 1) Train
 
-Edit parameters inside Config in main.py if needed, then run:
+Edit parameters inside Config in 'main.py' if needed, then run:
 
 ```bash
 python main.py
-```bash
 
 Checkpoints are saved to:
+```bash
 checkpoints_optics_only/ 
 
 
 ### 2) Visualize a trained model
 
-Update ckpt_path inside visualize_trained_optics.py to the checkpoint you want, then run:
+Update ckpt_path inside 'visualize_trained_optics.py' to the checkpoint you want, then run:
 
 ```bash
 python visualize_trained_optics.py
-```bash
 
 Outputs are saved to:
 ```bash
 viz_outputs/ 
-```bash
 
 ## Key parameters
 
